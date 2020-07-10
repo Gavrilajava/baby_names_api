@@ -11,6 +11,9 @@ class Name < ApplicationRecord
   
 
   def validate_name
+    if self.name.length == 0 
+      self.errors.add(:base, "You should enter the name")
+    end
     if self.list.names.find_by("LOWER(name) = ?", self.name.downcase)
       self.errors.add(:base, "Name is not unique")
     end
@@ -18,6 +21,8 @@ class Name < ApplicationRecord
     if !(/^[a-zA-Z\s]*$/ === self.name) || self.name.split(" ").length > 2
       self.errors.add(:base, "Name is not valid")
     end
+
+
   end
 
   def all_names
