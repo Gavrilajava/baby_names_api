@@ -4,6 +4,7 @@ class NamesController < ApplicationController
 
   def create
     name = Name.new(name: params[:name], list: @list)
+    name.manual = name.next_manual
     if name.save
       NamesChannel.broadcast_to(@list, name)
       render json: {status: "ok"}
@@ -20,6 +21,7 @@ class NamesController < ApplicationController
     name = Name.find(name_params[:id])
     if name
       name.update(name_params)
+      name.arrange_manuals
       NamesChannel.broadcast_to(@list, name)
       render json: {status: "updated"}
     end
@@ -32,7 +34,7 @@ class NamesController < ApplicationController
   end
 
   def name_params
-    params.require(:name).permit(:id, :crossed, :list)
+    params.require(:name).permit(:id, :crossed, :list, :manual)
   end
 
 end

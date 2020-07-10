@@ -20,4 +20,18 @@ class Name < ApplicationRecord
     end
   end
 
+  def all_names
+    Name.where(list: self.list).order(:manual)
+  end
+
+  def next_manual
+    self.all_names.maximum(:manual) + 20
+  end
+
+  def arrange_manuals
+    self.all_names.each.with_index(1){|name, index|
+      name.update(manual: index*20)
+    }
+  end
+
 end
