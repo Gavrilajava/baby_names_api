@@ -30,7 +30,11 @@ class Name < ApplicationRecord
   end
 
   def next_manual
-    self.all_names.maximum(:manual) + 20
+    if self.all_names.length > 0
+      return self.all_names.maximum(:manual) + 20
+    else
+      return 20
+    end
   end
 
   def arrange_manuals
