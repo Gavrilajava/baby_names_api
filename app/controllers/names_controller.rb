@@ -6,8 +6,7 @@ class NamesController < ApplicationController
     name = Name.new(name: params[:name], list: @list)
     name.manual = name.next_manual
     if name.save
-      NamesChannel.broadcast_to(@list, name)
-      render json: {status: "ok"}
+      render json: name.all_names
     else
       render json: {errors: name.errors}
     end
@@ -22,8 +21,7 @@ class NamesController < ApplicationController
     if name
       name.update(name_params)
       name.arrange_manuals
-      NamesChannel.broadcast_to(@list, name)
-      render json: {status: "updated"}
+      render json: name.all_names
     end
   end
   
