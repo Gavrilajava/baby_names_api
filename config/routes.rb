@@ -6,7 +6,7 @@ Rails.application.routes.draw do
   post '/names', to: 'names#create'
   get '/names/:list', to: 'names#index'
   patch '/name', to: 'names#update'
-  mount ActionCable.server => '/cable'
+  
 
   
 end
