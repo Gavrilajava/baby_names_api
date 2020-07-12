@@ -17,10 +17,13 @@ class Name < ApplicationRecord
     if self.list.names.find_by("LOWER(name) = ?", self.name.downcase)
       self.errors.add(:base, "Name is not unique")
     end
-    # if !(/^[a-zA-Z]+(\s{0,1}[a-zA-Z])*$/ === self.name) don't know why it isn't working
-    if !(/^[a-zA-Z\s]*$/ === self.name) || self.name.split(" ").length > 2
-      self.errors.add(:base, "Name is not valid")
+    if !(/^[a-zA-Z\s]*$/ === self.name)
+      self.errors.add(:base, "Name should contain only letters")
     end
+    if self.name.count(" ") > 1
+      self.errors.add(:base, "Name should contain only one space")
+    end
+
 
 
   end
